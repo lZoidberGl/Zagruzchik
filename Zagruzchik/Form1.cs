@@ -36,7 +36,7 @@ namespace Zagruzchik
 
         private void TestCheck()
         {
-            if (Application.StartupPath == @"B:\Projects\Progs\Zagruzchik\Zagruzchik\bin\Debug")
+            if (Application.StartupPath == @"I:\Projects\Progs\Zagruzchik\Zagruzchik\bin\Debug")
                 testtm.Enabled = true;
         }
 
@@ -110,11 +110,13 @@ namespace Zagruzchik
         {
             progressBar.Style = ProgressBarStyle.Marquee;
             if (File.Exists(Path.Combine(RusPathText.Text, "Localization.zip")))
-            {                
-                UnzipFile(Path.Combine(RusPathText.Text, "Localization.zip"), RusPathText.Text);          
-            try { File.Delete(Path.Combine(RusPathText.Text, "Localization.zip")); }
-            catch { }
-            MessageBox.Show("Готово! Русификатор установлен!");
+            {
+                UnzipFile(Path.Combine(RusPathText.Text, "Localization.zip"), RusPathText.Text);
+                try { File.Delete(Path.Combine(RusPathText.Text, "Localization.zip")); }
+                catch { }
+                MessageBox.Show("Готово! Русификатор установлен!");
+                if (VKcheck.Checked)
+                    Process.Start("http://new.vk.com/windwardgame");
             }
 
             if (File.Exists("update.zip"))
@@ -125,6 +127,8 @@ namespace Zagruzchik
                 catch { }
                 MessageBox.Show("Готово! Новая версия программы загружена!/nПрограмма будет перезапущена.");               
                 CmdWork();
+                if (VKcheck.Checked)
+                    Process.Start("http://new.vk.com/windwardgame");
             }
             ProgressPanel.Visible = false;
         }
@@ -395,6 +399,11 @@ namespace Zagruzchik
             RusCheck();
             RusCheckVer();
             TestCheck();
+        }
+
+        private void VKGroup_Click(object sender, EventArgs e)
+        {
+              Process.Start("http://new.vk.com/windwardgame");
         }
 
         static void UnzipFile(string path, string destination)

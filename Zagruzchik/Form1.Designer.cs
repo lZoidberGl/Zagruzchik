@@ -36,7 +36,6 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.VKcheck = new System.Windows.Forms.CheckBox();
             this.SettingsShow = new System.Windows.Forms.Button();
-            this.PrgAthr = new System.Windows.Forms.Label();
             this.GameStart = new System.Windows.Forms.Button();
             this.RusInstall = new System.Windows.Forms.Button();
             this.Settings = new System.Windows.Forms.Panel();
@@ -53,8 +52,10 @@
             this.RusPathText = new System.Windows.Forms.TextBox();
             this.RusPathBrowse = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.VKGroup = new System.Windows.Forms.Button();
             this.UpdaterTool = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.PrgAthr = new System.Windows.Forms.Label();
             this.MvblPnl1 = new System.Windows.Forms.Panel();
             this.testlabel = new System.Windows.Forms.Label();
             this.PrgVer = new System.Windows.Forms.Label();
@@ -154,17 +155,6 @@
             this.SettingsShow.Text = "Настройки";
             this.SettingsShow.UseVisualStyleBackColor = true;
             this.SettingsShow.Click += new System.EventHandler(this.SettingsShow_Click);
-            // 
-            // PrgAthr
-            // 
-            this.PrgAthr.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.PrgAthr.Location = new System.Drawing.Point(161, 13);
-            this.PrgAthr.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.PrgAthr.Name = "PrgAthr";
-            this.PrgAthr.Size = new System.Drawing.Size(159, 21);
-            this.PrgAthr.TabIndex = 1;
-            this.PrgAthr.Text = "label1";
-            this.PrgAthr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // GameStart
             // 
@@ -366,6 +356,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.VKGroup);
             this.panel1.Controls.Add(this.UpdaterTool);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.PrgAthr);
@@ -375,6 +366,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(484, 71);
             this.panel1.TabIndex = 7;
+            // 
+            // VKGroup
+            // 
+            this.VKGroup.BackgroundImage = global::Zagruzchik.Properties.Resources.vklogo;
+            this.VKGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.VKGroup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.VKGroup.FlatAppearance.BorderSize = 0;
+            this.VKGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.VKGroup.Location = new System.Drawing.Point(407, 16);
+            this.VKGroup.Name = "VKGroup";
+            this.VKGroup.Size = new System.Drawing.Size(40, 40);
+            this.VKGroup.TabIndex = 7;
+            this.VKGroup.UseVisualStyleBackColor = true;
+            this.VKGroup.Click += new System.EventHandler(this.VKGroup_Click);
             // 
             // UpdaterTool
             // 
@@ -395,13 +400,24 @@
             // 
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(393, 25);
+            this.button1.Location = new System.Drawing.Point(76, 36);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(52, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = ".";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // PrgAthr
+            // 
+            this.PrgAthr.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.PrgAthr.Location = new System.Drawing.Point(161, 13);
+            this.PrgAthr.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PrgAthr.Name = "PrgAthr";
+            this.PrgAthr.Size = new System.Drawing.Size(159, 21);
+            this.PrgAthr.TabIndex = 1;
+            this.PrgAthr.Text = "label1";
+            this.PrgAthr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MvblPnl1
             // 
@@ -561,6 +577,7 @@
         public System.Windows.Forms.Timer tm2;
         private System.Windows.Forms.Label testlabel;
         private System.Windows.Forms.Timer testtm;
+        private System.Windows.Forms.Button VKGroup;
     }
 }
 

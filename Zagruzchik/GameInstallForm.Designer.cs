@@ -123,13 +123,13 @@
             // 
             // CancelAsync
             // 
+            this.CancelAsync.Enabled = false;
             this.CancelAsync.Location = new System.Drawing.Point(15, 32);
             this.CancelAsync.Name = "CancelAsync";
             this.CancelAsync.Size = new System.Drawing.Size(24, 24);
             this.CancelAsync.TabIndex = 9;
             this.CancelAsync.Text = "X";
             this.CancelAsync.UseVisualStyleBackColor = true;
-            this.CancelAsync.Visible = false;
             this.CancelAsync.Click += new System.EventHandler(this.CancelAsync_Click);
             // 
             // GameInstallForm

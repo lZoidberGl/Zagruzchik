@@ -61,14 +61,14 @@ namespace Zagruzchik
 
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            CancelAsync.Visible = true;
+            CancelAsync.Enabled = true;
             progressBar.Value = e.ProgressPercentage;
             DownloadStatus.Text = Math.Round(double.Parse(e.BytesReceived.ToString()) / 1024, 0) + " KB/" + Math.Round(double.Parse(e.TotalBytesToReceive.ToString()) / 1024 , 0) + " KB       " + e.ProgressPercentage.ToString() + "%";
         }
 
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            CancelAsync.Visible = false;
+            CancelAsync.Enabled = false;
         }
 
         private void UnPack()
