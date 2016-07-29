@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.IO.Compression;
 using System.Threading;
+using System.Configuration;
 
 namespace Zagruzchik
 {
@@ -27,16 +28,42 @@ namespace Zagruzchik
             this.Height = this.Height - 220;
             PrgVer.TextAlign = ContentAlignment.TopLeft;
 
-            PrgVer.Text = Application.ProductVersion + " Epsilon";
+            PrgVer.Text = Application.ProductVersion;
             PrgAthr.Text = "Сделал |ZoidberG|";
             SettingsShow.Text = "Показать настройки";
-            RusPathText.Text = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents","Windward");
+            RusPathText.Text = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents", "Windward");
             GamePathText.Text = Path.Combine(Application.StartupPath, "Windward");
+
+        }
+
+        private void CheckForPath()
+        {
+            if (File.Exists(Path.Combine(Application.StartupPath ,"Path.txt")))
+            {
+                GamePathText.Text = File.ReadAllText(Path.Combine(Application.StartupPath, "Path.txt"));
+            }
+        }
+
+        private void DllCheck()
+        {
+            if (File.Exists(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents", "Windward", "mods", "translateMod", "translateMod.dll")))
+            {
+                try
+                {
+                    File.Delete(Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents", "Windward", "mods", "translateMod", "translateMod.dll"));
+                    MessageBox.Show("Файл: translateMod.dll был удален!");
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось удалить файл: translateMod.dll  Попробуйте удалить его вручную в папке: " + Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), "Documents", "Windward", "mods", "translateMod"));
+                }
+            }
         }
 
         private void TestCheck()
         {
-            if (Application.StartupPath == @"I:\Projects\Progs\Zagruzchik\Zagruzchik\bin\Debug")
+            // if (Application.StartupPath == @"I:\Projects\Progs\Zagruzchik\Zagruzchik\bin\Debug")
+            if (Application.StartupPath.Contains(@"Projects\Progs\Zagruzchik\Zagruzchik\bin\Debug"))
                 testtm.Enabled = true;
         }
 
@@ -74,26 +101,25 @@ namespace Zagruzchik
 
         private void GameCheck()
         {
-           /* if (File.Exists(Path.Combine("Windward", "Windward.exe")))
+            /* if (File.Exists(Path.Combine("Windward", "Windward.exe")))
+             {
+                 GameStatus.Text = "Установлена";
+                 GameStatus.ForeColor = Color.Green;
+                 GameStatusPanel.BackColor = Color.Green;
+                 GameInstall.BackgroundImage = Properties.Resources.installmade;
+             }
+             else*/
+            if (File.Exists(Path.Combine(GamePathText.Text, "Windward.exe")))
             {
                 GameStatus.Text = "Установлена";
                 GameStatus.ForeColor = Color.Green;
                 GameStatusPanel.BackColor = Color.Green;
-                GameInstall.BackgroundImage = Properties.Resources.installmade;
-            }
-            else*/ if (File.Exists(Path.Combine(GamePathText.Text, "Windward.exe")))
-            {
-                GameStatus.Text = "Установлена";
-                GameStatus.ForeColor = Color.Green;
-                GameStatusPanel.BackColor = Color.Green;
-                GameInstall.BackgroundImage = Properties.Resources.installmade;
             }
             else
             {
                 GameStatus.Text = "Отсутствует";
                 GameStatus.ForeColor = Color.Red;
                 GameStatusPanel.BackColor = Color.Red;
-                GameInstall.BackgroundImage = Properties.Resources.ModernXP_74_Software_Install_icon;
             }
         }
 
@@ -107,6 +133,61 @@ namespace Zagruzchik
         }
 
         private void UnPack()
+        {
+            if (File.Exists(Path.Combine(RusPathText.Text, "Localization.zip")))
+            {
+                using (ZipArchive file = ZipFile.OpenRead(Path.Combine(RusPathText.Text, "Localization.zip")))
+                {
+                   
+                    string path = RusPathText.Text;
+                    try { ZipExtension.ExtractToDirectory(file, path, true); }
+                    catch { MessageBox.Show("Ошибка распаковки!"); }
+                }
+                Unzipper.CancelAsync();
+            }
+
+            if (File.Exists("update.zip"))
+            {
+                using (ZipArchive file = ZipFile.OpenRead("update.zip"))
+                {
+                    
+                    string path = Application.StartupPath;
+                    try { ZipExtension.ExtractToDirectory(file, path, true); }
+                    catch { MessageBox.Show("Ошибка распаковки!"); }
+                }
+                Unzipper.CancelAsync();
+            }
+            Unzipper.CancelAsync();
+        }
+
+        private void DeleteRemainingFiles()
+        {
+            if (File.Exists(Path.Combine(RusPathText.Text, "Localization.zip")))
+            {
+                string filepath = Path.Combine(RusPathText.Text, "Localization.zip");
+                File.Delete(filepath);
+                MessageBox.Show("Готово! Русификатор установлен!");
+                if (VKcheck.Checked)
+                    Process.Start("http://new.vk.com/windwardgame");
+                RusInstall.Enabled = true;
+            }
+
+            if (File.Exists("update.zip"))
+            {
+                string filepath = "update.zip";
+                File.Delete(filepath);
+                MessageBox.Show("Готово! Новая версия программы загружена!/nПрограмма будет перезапущена.");
+                CmdWork();
+                if (VKcheck.Checked)
+                    Process.Start("http://new.vk.com/windwardgame");
+                UpdaterTool.Enabled = true;
+            }
+
+
+        }
+
+
+       /* private void UnPack()
         {
             progressBar.Style = ProgressBarStyle.Marquee;
             if (File.Exists(Path.Combine(RusPathText.Text, "Localization.zip")))
@@ -132,7 +213,7 @@ namespace Zagruzchik
             }
             ProgressPanel.Visible = false;
         }
-
+        */
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             progressBar.Value = e.ProgressPercentage;           
@@ -140,11 +221,34 @@ namespace Zagruzchik
         }
         private void Client_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-            try { UnPack(); }
-            catch { MessageBox.Show("Ошибка:  " + e.Error); }
+            if (File.Exists(Path.Combine(RusPathText.Text, "Localization.zip")) || File.Exists("update.zip"))
+            {
+                try
+                {
+                    Unzipper.WorkerSupportsCancellation = true;
+                    Unzipper.RunWorkerAsync();
+                }
+                catch (Exception ex)
+                {
+                    
+                    MessageBox.Show("Ошибка:  " + ex.Message);
+                }
+            }
+            
+            if (File.Exists("WIA.exe"))
+            {
+                ProgressPanel.Visible = false;
+                File.Move("WIA.exe", "WindwardInstallAddon.exe");
+                DialogResult answ = MessageBox.Show("Аддон загружен! Хотите запустить?", "Запрос", MessageBoxButtons.YesNo);
+                if (answ == DialogResult.Yes)
+                {
+                    Process.Start("WindwardInstallAddon.exe");
+                }
+            }
         }
         private void RusInstall_Click(object sender, EventArgs e)
           {
+            RusInstall.Enabled = false;
             Client.DownloadProgressChanged += Client_DownloadProgressChanged;
             Client.DownloadFileCompleted += Client_DownloadFileCompleted;
             try {
@@ -195,6 +299,7 @@ namespace Zagruzchik
 
         private void UpdaterTool_Click(object sender, EventArgs e)
         {
+            UpdaterTool.Enabled = false;
             try { ProgramUpdate();               
             }           
             catch { MessageBox.Show("Возникли неполадки с проверкой версии. Проверьте соединение с интернетом и перезапустите программу."); }
@@ -211,12 +316,6 @@ namespace Zagruzchik
             process.StartInfo.Arguments = string.Format("/C taskkill /IM \"{0}\" & Timeout 1  & Del /F \"{1}\" & Move /Y \"{2}\" \"{1}\" & START \"\" \"{1}\"", killproc, delpath, movepath);
             process.Start();
         }
-
-        private void TEST()
-        {
-
-        }
-
 
         private void ProgramUpdate()
         {
@@ -293,13 +392,6 @@ namespace Zagruzchik
         GamePathText.Text = Fd.SelectedPath;
         }
 
-        private void GameInstall_Click(object sender, EventArgs e)
-        {
-            GameInstallForm F = new GameInstallForm(GamePathText.Text);
-
-            F.Show();
-        }
-
         private void GamePathText_TextChanged(object sender, EventArgs e)
         {
             GameCheck();
@@ -310,22 +402,11 @@ namespace Zagruzchik
             ShowSettingsAction();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ShowSettingsAction();
-            MessageBox.Show("Была активирована секретная функция установки игры!");
-            Gamebox.Enabled = true;
-        }
 
         private void PrgVer_Click(object sender, EventArgs e)
         {
             ChangeLogForm ChangeLog = new ChangeLogForm();
             ChangeLog.Show();
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            TEST();
         }
 
         private void RusPathText_TextChanged(object sender, EventArgs e)
@@ -399,6 +480,14 @@ namespace Zagruzchik
             RusCheck();
             RusCheckVer();
             TestCheck();
+            CheckForPath();
+            DllCheck();
+            //CreateConfig();
+        }
+
+        private void CreateConfig()
+        {
+           
         }
 
         private void VKGroup_Click(object sender, EventArgs e)
@@ -406,18 +495,49 @@ namespace Zagruzchik
               Process.Start("http://new.vk.com/windwardgame");
         }
 
-        static void UnzipFile(string path, string destination)
+        private void Unzipper_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            using (ZipArchive archive = ZipFile.OpenRead(path))
+            try
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                UnPack();
+            }
+            catch
+            {
+
+            }
+
+
+        }
+
+        private void GameInstall_Click(object sender, EventArgs e)
+        {
+            if (File.Exists("WindwardInstallerAddon.exe"))
+            {
+                DialogResult answ = MessageBox.Show("Аддон для загрузки игры был обнаружен! Хотите запустить?", "", MessageBoxButtons.YesNo);
+                if (answ == DialogResult.Yes)
                 {
-                    if (entry.FullName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
-                    {
-                        entry.ExtractToFile(Path.Combine(destination, entry.FullName), true);
-                    }
+                    Process.Start("WindwardInstallerAddon.exe");
+                }
+            }
+            else
+            {
+                DialogResult answ = MessageBox.Show("Не удалось обнаружить аддон для загрузки игры! Возможно вы хотите его загрузить?", "Запрос", MessageBoxButtons.YesNo);
+                if (answ == DialogResult.Yes)
+                {
+                    Client.DownloadProgressChanged += Client_DownloadProgressChanged;
+                    Client.DownloadFileCompleted += Client_DownloadFileCompleted;
+
+                    ProgressPanel.Visible = true;
+
+                    Client.DownloadFileAsync(new Uri("https://dl.dropboxusercontent.com/s/0bfwdd9wmghvslm/WindwardInstallerAddon.exe?dl=1"),"WIA.exe"); //https://www.dropbox.com/s/0bfwdd9wmghvslm/WindwardInstallerAddon.exe?dl=0
                 }
             }
         }
+
+        private void Unzipper_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            DeleteRemainingFiles();
+        }
+        
     }
 }

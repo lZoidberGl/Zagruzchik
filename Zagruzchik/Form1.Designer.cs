@@ -44,9 +44,9 @@
             this.GamePathText = new System.Windows.Forms.TextBox();
             this.GamePathBrowse = new System.Windows.Forms.Button();
             this.Gamebox = new System.Windows.Forms.GroupBox();
+            this.GameInstall = new System.Windows.Forms.Button();
             this.GameStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.GameInstall = new System.Windows.Forms.Button();
             this.RusPath = new System.Windows.Forms.GroupBox();
             this.RusStatusPanel = new System.Windows.Forms.Panel();
             this.RusPathText = new System.Windows.Forms.TextBox();
@@ -54,7 +54,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.VKGroup = new System.Windows.Forms.Button();
             this.UpdaterTool = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.PrgAthr = new System.Windows.Forms.Label();
             this.MvblPnl1 = new System.Windows.Forms.Panel();
             this.testlabel = new System.Windows.Forms.Label();
@@ -65,6 +64,7 @@
             this.tm1 = new System.Windows.Forms.Timer(this.components);
             this.tm2 = new System.Windows.Forms.Timer(this.components);
             this.testtm = new System.Windows.Forms.Timer(this.components);
+            this.Unzipper = new System.ComponentModel.BackgroundWorker();
             this.MainPanel.SuspendLayout();
             this.ProgressPanel.SuspendLayout();
             this.Settings.SuspendLayout();
@@ -108,10 +108,10 @@
             // 
             // ProgressPercent
             // 
-            this.ProgressPercent.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ProgressPercent.Location = new System.Drawing.Point(219, 14);
+            this.ProgressPercent.BackColor = System.Drawing.Color.Transparent;
+            this.ProgressPercent.Location = new System.Drawing.Point(404, 15);
             this.ProgressPercent.Name = "ProgressPercent";
-            this.ProgressPercent.Size = new System.Drawing.Size(47, 20);
+            this.ProgressPercent.Size = new System.Drawing.Size(45, 20);
             this.ProgressPercent.TabIndex = 13;
             this.ProgressPercent.Text = "0%";
             this.ProgressPercent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -119,7 +119,7 @@
             // progressBar
             // 
             this.progressBar.ForeColor = System.Drawing.Color.Transparent;
-            this.progressBar.Location = new System.Drawing.Point(60, 11);
+            this.progressBar.Location = new System.Drawing.Point(37, 11);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(365, 26);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -258,21 +258,31 @@
             // 
             // Gamebox
             // 
+            this.Gamebox.Controls.Add(this.GameInstall);
             this.Gamebox.Controls.Add(this.GameStatus);
             this.Gamebox.Controls.Add(this.label2);
-            this.Gamebox.Controls.Add(this.GameInstall);
-            this.Gamebox.Enabled = false;
             this.Gamebox.Location = new System.Drawing.Point(40, 3);
             this.Gamebox.Name = "Gamebox";
             this.Gamebox.Size = new System.Drawing.Size(405, 60);
             this.Gamebox.TabIndex = 12;
             this.Gamebox.TabStop = false;
-            this.Gamebox.Text = "Игра (НЕ РАБОТАЕТ)";
+            this.Gamebox.Text = "Игра (Alpha)";
+            // 
+            // GameInstall
+            // 
+            this.GameInstall.BackgroundImage = global::Zagruzchik.Properties.Resources.ModernXP_74_Software_Install_icon;
+            this.GameInstall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.GameInstall.Location = new System.Drawing.Point(359, 16);
+            this.GameInstall.Name = "GameInstall";
+            this.GameInstall.Size = new System.Drawing.Size(40, 40);
+            this.GameInstall.TabIndex = 4;
+            this.GameInstall.UseVisualStyleBackColor = true;
+            this.GameInstall.Click += new System.EventHandler(this.GameInstall_Click);
             // 
             // GameStatus
             // 
             this.GameStatus.AutoSize = true;
-            this.GameStatus.Location = new System.Drawing.Point(142, 28);
+            this.GameStatus.Location = new System.Drawing.Point(95, 28);
             this.GameStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.GameStatus.Name = "GameStatus";
             this.GameStatus.Size = new System.Drawing.Size(44, 17);
@@ -281,26 +291,12 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(61, 24);
+            this.label2.Location = new System.Drawing.Point(6, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(103, 25);
             this.label2.TabIndex = 1;
             this.label2.Text = "Состояние:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // GameInstall
-            // 
-            this.GameInstall.BackgroundImage = global::Zagruzchik.Properties.Resources.ModernXP_74_Software_Install_icon;
-            this.GameInstall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.GameInstall.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GameInstall.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.GameInstall.ForeColor = System.Drawing.Color.Transparent;
-            this.GameInstall.Location = new System.Drawing.Point(6, 19);
-            this.GameInstall.Name = "GameInstall";
-            this.GameInstall.Size = new System.Drawing.Size(35, 35);
-            this.GameInstall.TabIndex = 0;
-            this.GameInstall.UseVisualStyleBackColor = true;
-            this.GameInstall.Click += new System.EventHandler(this.GameInstall_Click);
             // 
             // RusPath
             // 
@@ -358,7 +354,6 @@
             // 
             this.panel1.Controls.Add(this.VKGroup);
             this.panel1.Controls.Add(this.UpdaterTool);
-            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.PrgAthr);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 474);
@@ -395,18 +390,6 @@
             this.UpdaterTool.TabIndex = 6;
             this.UpdaterTool.UseVisualStyleBackColor = true;
             this.UpdaterTool.Click += new System.EventHandler(this.UpdaterTool_Click);
-            // 
-            // button1
-            // 
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(76, 36);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = ".";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // PrgAthr
             // 
@@ -502,6 +485,11 @@
             this.testtm.Interval = 250;
             this.testtm.Tick += new System.EventHandler(this.testtm_Tick);
             // 
+            // Unzipper
+            // 
+            this.Unzipper.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Unzipper_DoWork);
+            this.Unzipper.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Unzipper_RunWorkerCompleted);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -562,13 +550,11 @@
         private System.Windows.Forms.GroupBox Gamebox;
         private System.Windows.Forms.Button UpdaterTool;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button GameInstall;
         private System.Windows.Forms.GroupBox RusPath;
         internal System.Windows.Forms.Button RusPathBrowse;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label ProgressPercent;
         private System.Windows.Forms.Panel ProgressPanel;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Panel RusStatusPanel;
         internal System.Windows.Forms.TextBox RusPathText;
@@ -578,6 +564,8 @@
         private System.Windows.Forms.Label testlabel;
         private System.Windows.Forms.Timer testtm;
         private System.Windows.Forms.Button VKGroup;
+        private System.ComponentModel.BackgroundWorker Unzipper;
+        private System.Windows.Forms.Button GameInstall;
     }
 }
 
