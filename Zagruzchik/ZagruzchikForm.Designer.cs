@@ -1,6 +1,6 @@
 ﻿namespace Zagruzchik
 {
-    partial class Form1
+    partial class ZagruzchikForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ZagruzchikForm));
             this.MainPanel = new System.Windows.Forms.Panel();
             this.ProgressPanel = new System.Windows.Forms.Panel();
             this.ProgressPercent = new System.Windows.Forms.Label();
@@ -47,6 +47,7 @@
             this.GameInstall = new System.Windows.Forms.Button();
             this.GameStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.RusPath = new System.Windows.Forms.GroupBox();
             this.RusStatusPanel = new System.Windows.Forms.Panel();
             this.RusPathText = new System.Windows.Forms.TextBox();
@@ -119,9 +120,9 @@
             // progressBar
             // 
             this.progressBar.ForeColor = System.Drawing.Color.Transparent;
-            this.progressBar.Location = new System.Drawing.Point(37, 11);
+            this.progressBar.Location = new System.Drawing.Point(40, 11);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(365, 26);
+            this.progressBar.Size = new System.Drawing.Size(362, 26);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 12;
             // 
@@ -261,6 +262,7 @@
             this.Gamebox.Controls.Add(this.GameInstall);
             this.Gamebox.Controls.Add(this.GameStatus);
             this.Gamebox.Controls.Add(this.label2);
+            this.Gamebox.Controls.Add(this.button1);
             this.Gamebox.Location = new System.Drawing.Point(40, 3);
             this.Gamebox.Name = "Gamebox";
             this.Gamebox.Size = new System.Drawing.Size(405, 60);
@@ -297,6 +299,16 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Состояние:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(347, 16);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(22, 22);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "?";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // RusPath
             // 
@@ -414,6 +426,7 @@
             this.MvblPnl1.Name = "MvblPnl1";
             this.MvblPnl1.Size = new System.Drawing.Size(484, 54);
             this.MvblPnl1.TabIndex = 6;
+            this.MvblPnl1.Paint += new System.Windows.Forms.PaintEventHandler(this.MvblPnl1_Paint);
             this.MvblPnl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MvblPnl1_MouseDown);
             this.MvblPnl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MvblPnl1_MouseMove);
             this.MvblPnl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MvblPnl1_MouseUp);
@@ -490,7 +503,7 @@
             this.Unzipper.DoWork += new System.ComponentModel.DoWorkEventHandler(this.Unzipper_DoWork);
             this.Unzipper.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.Unzipper_RunWorkerCompleted);
             // 
-            // Form1
+            // ZagruzchikForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -505,7 +518,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "ZagruzchikForm";
             this.Text = "Загрузчик";
             this.TransparencyKey = System.Drawing.Color.Wheat;
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -566,6 +579,7 @@
         private System.Windows.Forms.Button VKGroup;
         private System.ComponentModel.BackgroundWorker Unzipper;
         private System.Windows.Forms.Button GameInstall;
+        private System.Windows.Forms.Button button1;
     }
 }
 

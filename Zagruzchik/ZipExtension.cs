@@ -21,7 +21,6 @@ namespace Zagruzchik
                     continue;
                 }
                 file.ExtractToFile(completeFileName, true);
-
             }
         }
     }

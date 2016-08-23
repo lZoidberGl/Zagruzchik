@@ -5,16 +5,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.IO.Compression;
-using System.Threading;
-using System.Configuration;
 
 namespace Zagruzchik
 {
 
-    public partial class Form1 : Form
+    public partial class ZagruzchikForm : Form
 
     {
-        internal Form1()
+        internal ZagruzchikForm()
         {
             InitializeComponent();
         }
@@ -485,11 +483,6 @@ namespace Zagruzchik
             //CreateConfig();
         }
 
-        private void CreateConfig()
-        {
-           
-        }
-
         private void VKGroup_Click(object sender, EventArgs e)
         {
               Process.Start("http://new.vk.com/windwardgame");
@@ -511,6 +504,7 @@ namespace Zagruzchik
 
         private void GameInstall_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Знай, каждый раз, когда ты скачиваешь Windward от сюда, где-то в Канаде грустит Майкл Ляшенко (Разработчик). Задумайся, если игра понравилась, купи ее!");
             if (File.Exists("WindwardInstallerAddon.exe"))
             {
                 DialogResult answ = MessageBox.Show("Аддон для загрузки игры был обнаружен! Хотите запустить?", "", MessageBoxButtons.YesNo);
@@ -532,6 +526,16 @@ namespace Zagruzchik
                     Client.DownloadFileAsync(new Uri("https://dl.dropboxusercontent.com/s/0bfwdd9wmghvslm/WindwardInstallerAddon.exe?dl=1"),"WIA.exe"); //https://www.dropbox.com/s/0bfwdd9wmghvslm/WindwardInstallerAddon.exe?dl=0
                 }
             }
+        }
+
+        private void MvblPnl1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Ходят слухи о каком-то шифре! Неизвестно, сложен он или легок. Но есть информация, что найти его можно в аддоне.","Слух");
         }
 
         private void Unzipper_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
